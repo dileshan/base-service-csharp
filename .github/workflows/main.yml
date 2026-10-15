@@ -32,9 +32,26 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.SOLUTION }} -c Release --no-restore
 
+  check-linting:
+    name: Check Linting
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Dotnet tool restore
+        run: dotnet csharpier restore
+
+      - name: Run check linting
+        run: dotnet csharpier check .
+
   test:
     name: Test
-    needs: build
+    needs: check-linting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -53,23 +70,9 @@ jobs:
           name: test-results
           path: TestResults/
 
-  check-linting:
-    name: Check Linting
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Run check linting
-        run: dotnet csharpier check .
-
   coverage:
     name: Coverage
-    needs: check-linting
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -43,8 +43,8 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Dotnet tool restore
-        run: dotnet csharpier restore
+      - name: Dotnet csharpier restore
+        run: dotnet tool restore
 
       - name: Run check linting
         run: dotnet csharpier check .

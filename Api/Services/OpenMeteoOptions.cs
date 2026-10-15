@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Api.Services;
 
 /// <summary>Bound from the <c>OpenMeteo</c> section of appsettings.json.</summary>
-[ExcludeFromCodeCoverage ( Justification = "Simple DTO for configuration binding." )]
+[ExcludeFromCodeCoverage(Justification = "Simple DTO for configuration binding.")]
 public sealed class OpenMeteoOptions
 {
     public const string SectionName = "OpenMeteo";

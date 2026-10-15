@@ -8,7 +8,8 @@ public sealed record ErrorResponse(int Code, string Message, string Target)
     /// <summary>Builds a 400 response from failed model binding/validation (used by the [ApiController] filter).</summary>
     public static ErrorResponse FromModelState(ModelStateDictionary modelState)
     {
-        var invalid = modelState.Where(entry => entry.Value is { Errors.Count: > 0 }).ToList();
+        // ModelStateDictionary never yields null entries; only fields with errors are reported.
+        var invalid = modelState.Where(entry => entry.Value!.Errors.Count > 0).ToList();
 
         var message = string.Join(
             " ",

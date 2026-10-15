@@ -9,7 +9,7 @@ on:
 env:
   DOTNET_VERSION: '10.0.x'
   SOLUTION: base-service-csharp.slnx
-  COVERAGE_THRESHOLD: 80
+  COVERAGE_THRESHOLD: 100
   IMAGE_NAME: base-service-csharp
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true

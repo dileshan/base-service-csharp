@@ -14,8 +14,9 @@ a Postman smoke collection. No UI, no auth, no database yet.
 ```bash
 dotnet build base-service-csharp.slnx
 dotnet test base-service-csharp.slnx
-# Coverage (same gate CI uses; fails below 80% line coverage)
-dotnet test base-service-csharp.slnx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./coverage/ /p:Threshold=80 /p:ThresholdType=line
+# Coverage (same gate CI uses; fails below 100% line coverage)
+dotnet test base-service-csharp.slnx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./coverage/ /p:Threshold=100 /p:ThresholdType=line
+./scripts/check-coverage.sh [--html|--open] [threshold]   # same check + total line coverage; --html writes coverage/html/ (PowerShell: scripts/check-coverage.ps1 -Html -Open -Threshold 100)
 dotnet run --project Api                         # http://localhost:8080
 docker build -t base-service-csharp . && docker run -p 8080:8080 base-service-csharp
 npx newman run postman/base-service-csharp.postman_collection.json
@@ -55,7 +56,7 @@ The solution file is `.slnx` (needs the .NET 10 SDK). If no local SDK is install
 
 ## CI
 
-`.github/workflows/main.yml` runs four chained jobs (`needs:`): build → test → coverage (80% line threshold) → docker
+`.github/workflows/main.yml` runs four chained jobs (`needs:`): build → test → coverage (100% line threshold) → docker
 (builds the image and uploads it as the `docker-image` artifact tarball; load with `docker load -i base-service-csharp.tar`).
 Keep `COVERAGE_THRESHOLD` passing when adding code: add tests in the mirrored folder.
 

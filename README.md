@@ -63,11 +63,21 @@ dotnet run --project Api        # http://localhost:8080
 dotnet test base-service-csharp.slnx
 ```
 
-Coverage (CI fails under 80% line coverage):
+Coverage (CI fails under 100% line coverage):
 
 ```bash
-dotnet test base-service-csharp.slnx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./coverage/ /p:Threshold=80 /p:ThresholdType=line
+dotnet test base-service-csharp.slnx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./coverage/ /p:Threshold=100 /p:ThresholdType=line
 ```
+
+Or use the wrapper script, which runs the same check and prints the total line coverage (threshold defaults to 100):
+
+```bash
+./scripts/check-coverage.sh [--html] [--open] [threshold]   # bash / Git Bash
+.\scripts\check-coverage.ps1 [-Html] [-Open] [-Threshold 100] # PowerShell
+```
+
+`--html`/`-Html` also builds a browsable HTML report in `coverage/html/index.html` (via the ReportGenerator local tool in
+`dotnet-tools.json`); `--open`/`-Open` builds it and opens it in your browser.
 
 ## Docker
 
@@ -92,5 +102,5 @@ npx newman run postman/base-service-csharp.postman_collection.json
 
 1. **Build**: restore and build the solution.
 2. **Test**: run the tests and upload TRX results.
-3. **Coverage**: run the tests with coverlet and fail below 80% line coverage. The Cobertura report is uploaded.
+3. **Coverage**: run the tests with coverlet and fail below 100% line coverage. The Cobertura report is uploaded.
 4. **Docker image**: build the image and upload it as the `docker-image` artifact (`docker load -i base-service-csharp.tar`).

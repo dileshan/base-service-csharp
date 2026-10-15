@@ -39,7 +39,7 @@ app.MapControllers();
 // Unmatched routes become a 404 with the standard error body.
 app.MapFallback(context =>
     throw new NotFoundException(
-        $"No endpoint matches {context.Request.Method} {context.Request.Path}."
+        $"Endpoint does not exist for {context.Request.Method} {context.Request.Path}."
     )
 );
 

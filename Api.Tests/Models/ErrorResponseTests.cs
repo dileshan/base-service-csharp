@@ -20,6 +20,20 @@ public sealed class ErrorResponseTests
     }
 
     [Fact]
+    public void FromModelState_ValidEntries_AreExcluded()
+    {
+        var modelState = new ModelStateDictionary();
+        modelState.SetModelValue("Longitude", "10", "10");
+        modelState.MarkFieldValid("Longitude");
+        modelState.AddModelError("Latitude", "Latitude is required.");
+
+        var error = ErrorResponse.FromModelState(modelState);
+
+        Assert.Equal("Latitude is required.", error.Message);
+        Assert.Equal("latitude", error.Target);
+    }
+
+    [Fact]
     public void FromModelState_ErrorWithoutMessage_UsesDefault()
     {
         var modelState = new ModelStateDictionary();

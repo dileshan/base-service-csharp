@@ -1,0 +1,6 @@
+<Project>
+  <!-- Applies to every project under this directory (Api and Api.Tests). -->
+  <PropertyGroup>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,74 @@
+{
+  "info": {
+    "name": "base-service-csharp",
+    "description": "Smoke tests for the base-service-csharp API. Set `baseUrl` to wherever the service is running (defaults to the local/docker port 8080).\n\nRun from the CLI with: `npx newman run postman/base-service-csharp.postman_collection.json`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "My weather",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Current, hourly and daily forecast for a location. Proxies the Open-Meteo forecast request used by myweatherapp.",
+        "url": {
+          "raw": "{{baseUrl}}/myweather?latitude={{latitude}}&longitude={{longitude}}&forecastDays=10&temperatureUnit=fahrenheit&windSpeedUnit=mph",
+          "host": ["{{baseUrl}}"],
+          "path": ["myweather"],
+          "query": [
+            { "key": "latitude", "value": "{{latitude}}" },
+            { "key": "longitude", "value": "{{longitude}}" },
+            { "key": "forecastDays", "value": "10" },
+            { "key": "temperatureUnit", "value": "fahrenheit" },
+            { "key": "windSpeedUnit", "value": "mph" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Health",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "latitude", "value": "39.094393" },
+    { "key": "longitude", "value": "-104.869855" }
+  ]
+}
